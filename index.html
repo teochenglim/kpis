@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <!-- Tabs will be dynamically added here -->
+        </div>
+        <div class="patterns-container" id="patternsContainer">
+            <!-- Categories will be dynamically added here -->
+        </div>
+    </div>
+    <script type="module">
+        import { initializeExportPanel } from './export.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeExportPanel();
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
