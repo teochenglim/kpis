@@ -9,6 +9,9 @@ export function editCategoryTitle(element) {
         const newText = input.value.trim();
         if (newText) {
             element.textContent = newText;
+            // Trigger session save
+            const event = new CustomEvent('dashboard-updated');
+            document.dispatchEvent(event);
         }
         element.style.display = '';
         input.remove();
@@ -36,6 +39,9 @@ export function editPattern(element) {
         const newText = input.value.trim();
         if (newText) {
             element.textContent = newText;
+            // Trigger session save
+            const event = new CustomEvent('dashboard-updated');
+            document.dispatchEvent(event);
         }
         element.style.display = '';
         input.remove();

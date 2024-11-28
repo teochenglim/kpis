@@ -3,18 +3,7 @@ import { createTab, switchTab, updateTabIndices } from './components/TabManager'
 import { createCategory, createPattern, updateRemoveButtons, isLastCategory, isLastPattern } from './components/CategoryManager';
 import { editCategoryTitle, editPattern } from './components/EditManager';
 import { exportToCSV, exportToYAML } from './utils/exportUtils';
-
-// Initial categories data
-const initialCategories = [
-    {
-        title: "Category 1",
-        patterns: ["Sub Category 1", "Sub Category 2"]
-    },
-    {
-        title: "Category 2",
-        patterns: ["Sub Category 3", "Sub Category 4"]
-    }
-];
+import { saveSession, loadSession, getCurrentState } from './utils/sessionManager';
 
 let activeTabIndex = 0;
 let tabCount = 1;
@@ -31,6 +20,7 @@ function editTabTitle(event, element) {
         const newText = input.value.trim();
         if (newText) {
             element.textContent = newText;
+            saveSession(getCurrentState(activeTabIndex, tabCount));
         }
         element.style.display = '';
         input.remove();
@@ -63,6 +53,7 @@ function addTab() {
     tabCount++;
     activeTabIndex = switchTab(tabCount - 1);
     updateTabIndices();
+    saveSession(getCurrentState(activeTabIndex, tabCount));
 }
 
 function removeTab(event, index) {
@@ -85,6 +76,8 @@ function removeTab(event, index) {
     } else if (index < activeTabIndex) {
         activeTabIndex--;
     }
+    
+    saveSession(getCurrentState(activeTabIndex, tabCount));
 }
 
 function showNewPatternInput(btn) {
@@ -117,6 +110,7 @@ function saveNewPattern(element) {
         const category = newPatternDiv.closest('.category');
         category.insertBefore(createPattern(text), newPatternDiv);
         updateRemoveButtons();
+        saveSession(getCurrentState(activeTabIndex, tabCount));
     }
     newPatternDiv.remove();
 }
@@ -156,6 +150,7 @@ function saveNewCategory(element) {
         const newCategory = createCategory(title);
         container.insertBefore(newCategory, newCategoryDiv);
         updateRemoveButtons();
+        saveSession(getCurrentState(activeTabIndex, tabCount));
     }
     newCategoryDiv.remove();
 }
@@ -171,6 +166,7 @@ function removeCategory(btn) {
         setTimeout(() => {
             category.remove();
             updateRemoveButtons();
+            saveSession(getCurrentState(activeTabIndex, tabCount));
         }, 300);
     }
 }
@@ -180,16 +176,36 @@ function removePattern(btn) {
     if (!isLastPattern(pattern)) {
         pattern.remove();
         updateRemoveButtons();
+        saveSession(getCurrentState(activeTabIndex, tabCount));
     }
 }
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    const tabsContainer = document.querySelector('.tabs');
+    const savedData = loadSession();
+    activeTabIndex = savedData.activeTabIndex;
+    tabCount = savedData.tabCount;
     
-    // Create initial tab
-    const firstTab = createTab(0, activeTabIndex);
-    tabsContainer.appendChild(firstTab);
+    const tabsContainer = document.querySelector('.tabs');
+    const container = document.getElementById('patternsContainer');
+    
+    // Create tabs and their content
+    savedData.tabs.forEach((tabData, index) => {
+        const tab = createTab(index, activeTabIndex);
+        tab.querySelector('.tab-text').textContent = tabData.title;
+        tabsContainer.appendChild(tab);
+        
+        const tabContent = document.createElement('div');
+        tabContent.className = 'tab-content';
+        tabContent.dataset.tabIndex = index;
+        tabContent.style.display = index === activeTabIndex ? '' : 'none';
+        
+        tabData.categories.forEach(category => {
+            tabContent.appendChild(createCategory(category.title, category.patterns));
+        });
+        
+        container.appendChild(tabContent);
+    });
     
     // Create add button
     const addButton = document.createElement('button');
@@ -197,18 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     addButton.innerHTML = '+';
     addButton.onclick = addTab;
     tabsContainer.appendChild(addButton);
-    
-    // Create initial tab content
-    const container = document.getElementById('patternsContainer');
-    const firstTabContent = document.createElement('div');
-    firstTabContent.className = 'tab-content';
-    firstTabContent.dataset.tabIndex = '0';
-    container.appendChild(firstTabContent);
-    
-    // Initialize categories
-    initialCategories.forEach(category => {
-        firstTabContent.appendChild(createCategory(category.title, category.patterns));
-    });
     
     // Add "Add Category" button
     const addCategoryButton = document.createElement('button');
