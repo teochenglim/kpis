@@ -1,9 +1,18 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
-  base: './', 
-  server: {
-    host: '0.0.0.0',
-    port: process.env.PORT || 3000,
+  base: './',
+  build: {
+    outDir: 'dist',
+    sourcemap: true
   },
+  server: {
+    port: 3000
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src')
+    }
+  }
 });

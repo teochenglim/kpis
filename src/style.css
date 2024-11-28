@@ -1,0 +1,352 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.tabs::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to bottom, #4a90e2, #357abd);
+    border-radius: 0 0 4px 4px;
+}
+
+.tab-btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%);
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin: 0 -1px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-btn:hover {
+    background: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(to bottom, #f4c430 0%, #f1b71c 100%);
+    color: #000;
+    z-index: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+}
+
+.tab-text {
+    cursor: pointer;
+}
+
+.tab-close {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.tab-close:hover {
+    color: #ff4444;
+}
+
+.tab-close:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.add-tab-btn {
+    padding: 0.8rem 1.2rem;
+    background: linear-gradient(to bottom, #f4c430 0%, #f1b71c 100%);
+    color: black;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.add-tab-btn:hover {
+    background: linear-gradient(to bottom, #f1b71c 0%, #e5ab10 100%);
+    transform: translateY(-2px);
+}
+
+.patterns-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.tab-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.category {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    position: relative;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.category.fade-out {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.category-title {
+    background-color: #90c590;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.pattern {
+    background-color: #6495ed;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    color: white;
+    position: relative;
+}
+
+.button-group {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 0.25rem;
+}
+
+.add-btn, .remove-btn, .save-btn {
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover, .remove-btn:hover:not(:disabled), .save-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.remove-btn {
+    color: #ff4444;
+}
+
+.remove-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.save-btn {
+    color: #22aa22;
+}
+
+.pattern .button-group {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.pattern:hover .button-group {
+    opacity: 1;
+}
+
+.category-title .button-group {
+    opacity: 0.7;
+}
+
+.category-title:hover .button-group {
+    opacity: 1;
+}
+
+.new-item {
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.new-item input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.new-item input:focus {
+    outline: none;
+    border-color: #90c590;
+}
+
+.new-category {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.new-category input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.button-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.button-row button {
+    padding: 0.5rem 1rem;
+}
+
+.category-text, .pattern-text {
+    cursor: pointer;
+}
+
+.edit-input {
+    width: 80%;
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: #90c590;
+}
+
+/* Side Panel Styles */
+.side-panel {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f8f8f8;
+    padding: 1rem;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.side-panel.collapsed {
+    transform: translate(calc(100% - 20px), -50%);
+}
+
+.side-panel::before {
+    content: '⟪';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    transition: transform 0.3s ease;
+}
+
+.side-panel.collapsed::before {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.export-btn {
+    background: linear-gradient(to bottom, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.export-btn:hover {
+    background: linear-gradient(to bottom, #357abd, #2868a0);
+    transform: translateX(-2px);
+}
+
+.export-btn i {
+    font-size: 1.2rem;
+}
+
+/* Add Category Button Styles */
+.add-category-btn {
+    background: linear-gradient(to bottom, #90c590, #70a570);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 1rem;
+}
+
+.add-category-btn:hover {
+    background: linear-gradient(to bottom, #70a570, #508550);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .category {
+        min-width: 100%;
+    }
+    .button-group {
+        opacity: 1;
+    }
+}
