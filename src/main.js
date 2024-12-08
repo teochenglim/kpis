@@ -3,7 +3,7 @@ import { createTab, switchTab, updateTabIndices } from './components/TabManager'
 import { createCategory, createPattern, updateRemoveButtons, isLastCategory, isLastPattern } from './components/CategoryManager';
 import { editCategoryTitle, editPattern } from './components/EditManager';
 import { exportToCSV, exportToYAML } from './utils/exportUtils';
-import { saveSession, loadSession, getCurrentState } from './utils/sessionManager';
+import { saveSession, loadSession, getCurrentState, resetToDefaults } from './utils/sessionManager';
 
 let activeTabIndex = 0;
 let tabCount = 1;
@@ -231,7 +231,7 @@ function initializeSidePanel() {
     const sidePanel = document.querySelector('.side-panel');
     if (sidePanel) {
         sidePanel.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('export-btn')) {
+            if (!e.target.classList.contains('export-btn') && !e.target.classList.contains('reset-btn')) {
                 sidePanel.classList.toggle('collapsed');
             }
         });
@@ -245,6 +245,7 @@ Object.assign(window, {
     editPattern,
     exportToCSV,
     exportToYAML,
+    resetToDefaults,
     addTab,
     removeTab,
     showNewCategoryInput,

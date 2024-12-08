@@ -3,7 +3,6 @@ services:
     name: kpi-dashboard
     env: static
     buildCommand: npm install && npm run build
-    startCommand: npm run preview -- --host 0.0.0.0 --port $PORT
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: true
     envVars:

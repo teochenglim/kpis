@@ -11,6 +11,7 @@
     padding: 0 1rem;
 }
 
+/* Tab Styles */
 .tabs {
     display: flex;
     justify-content: flex-start;
@@ -100,28 +101,26 @@
     transform: translateY(-2px);
 }
 
+/* Content Styles */
 .patterns-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: space-around;
+    width: 100%;
+    padding: 1rem;
 }
 
 .tab-content {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    justify-content: space-around;
     width: 100%;
 }
 
 .category {
-    flex: 1;
-    min-width: 200px;
-    max-width: 300px;
     position: relative;
     transition: all 0.3s ease;
     opacity: 1;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .category.fade-out {
@@ -147,6 +146,7 @@
     position: relative;
 }
 
+/* Button Styles */
 .button-group {
     position: absolute;
     right: 0.5rem;
@@ -184,23 +184,7 @@
     color: #22aa22;
 }
 
-.pattern .button-group {
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.pattern:hover .button-group {
-    opacity: 1;
-}
-
-.category-title .button-group {
-    opacity: 0.7;
-}
-
-.category-title:hover .button-group {
-    opacity: 1;
-}
-
+/* Input Styles */
 .new-item {
     margin: 0.5rem 0;
     width: 100%;
@@ -226,6 +210,7 @@
     margin: 1rem 0;
     text-align: center;
     width: 100%;
+    grid-column: 1 / -1;
 }
 
 .new-category input {
@@ -320,8 +305,24 @@
     transform: translateX(-2px);
 }
 
-.export-btn i {
-    font-size: 1.2rem;
+.reset-btn {
+    background: linear-gradient(to bottom, #ff6b6b, #ee5253);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(to bottom, #ee5253, #d63031);
+    transform: translateX(-2px);
 }
 
 /* Add Category Button Styles */
@@ -335,6 +336,9 @@
     font-weight: bold;
     transition: all 0.3s ease;
     margin: 1rem;
+    grid-column: 1 / -1;
+    width: fit-content;
+    justify-self: center;
 }
 
 .add-category-btn:hover {
@@ -342,10 +346,34 @@
     transform: translateY(-2px);
 }
 
+/* Pattern Button Visibility */
+.pattern .button-group {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.pattern:hover .button-group {
+    opacity: 1;
+}
+
+.category-title .button-group {
+    opacity: 0.7;
+}
+
+.category-title:hover .button-group {
+    opacity: 1;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .category {
-        min-width: 100%;
+    .tab-content {
+        grid-template-columns: 1fr;
     }
+    
+    .category {
+        width: 100%;
+    }
+    
     .button-group {
         opacity: 1;
     }

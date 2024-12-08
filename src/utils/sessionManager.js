@@ -1,35 +1,12 @@
-export function saveSession(data) {
-    localStorage.setItem('kpiDashboardData', JSON.stringify(data));
-}
+import { defaultData, CURRENT_VERSION } from './defaultData';
 
-export function loadSession() {
-    const savedData = localStorage.getItem('kpiDashboardData');
-    if (savedData) {
-        return JSON.parse(savedData);
+function migrateData(oldData) {
+    // Handle data structure updates between versions
+    if (!oldData.version || oldData.version !== CURRENT_VERSION) {
+        console.log('Data structure outdated, resetting to defaults');
+        return defaultData;
     }
-    return {
-        activeTabIndex: 0,
-        tabCount: 1,
-        tabs: [
-            {
-                title: "KPI 1",
-                categories: [
-                    {
-                        title: "Category 1",
-                        patterns: ["Sub Category 1", "Sub Category 2"]
-                    },
-                    {
-                        title: "Category 2",
-                        patterns: ["Sub Category 3", "Sub Category 4"]
-                    }
-                ]
-            }
-        ]
-    };
-}
-
-export function clearSession() {
-    localStorage.removeItem('kpiDashboardData');
+    return oldData;
 }
 
 export function getCurrentState(activeTabIndex, tabCount) {
@@ -64,8 +41,43 @@ export function getCurrentState(activeTabIndex, tabCount) {
     });
     
     return {
+        version: CURRENT_VERSION,
         activeTabIndex,
         tabCount,
         tabs
     };
+}
+
+export function saveSession(data) {
+    // Ensure version is set before saving
+    const dataToSave = {
+        ...data,
+        version: CURRENT_VERSION
+    };
+    localStorage.setItem('kpiDashboardData', JSON.stringify(dataToSave));
+}
+
+export function loadSession() {
+    try {
+        const savedData = localStorage.getItem('kpiDashboardData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            return migrateData(parsedData);
+        }
+    } catch (error) {
+        console.error('Error loading session data:', error);
+        return defaultData;
+    }
+    return defaultData;
+}
+
+export function resetToDefaults() {
+    if (confirm('Are you sure you want to reset to default values? This action cannot be undone.')) {
+        localStorage.removeItem('kpiDashboardData');
+        window.location.reload();
+    }
+}
+
+export function clearSession() {
+    localStorage.removeItem('kpiDashboardData');
 }
